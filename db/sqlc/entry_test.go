@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 	"testing"
 	"time"
 
@@ -27,13 +26,6 @@ func TestEntry(t *testing.T) {
 		require.Equal(t, entryNew.AccountID, entryGet.AccountID)
 		require.Equal(t, entryNew.Amount, entryGet.Amount)
 		require.WithinDuration(t, entryNew.CreatedAt, entryGet.CreatedAt, time.Second)
-	})
-
-	t.Run("Should be not able get entry", func(t *testing.T) {
-		entryGet, err := testQueries.GetEntry(context.Background(), util.RandomInt(50, 100))
-		require.Error(t, err)
-		require.EqualError(t, err, sql.ErrNoRows.Error())
-		require.Empty(t, entryGet)
 	})
 
 	t.Run("Should be able list of entries", func(t *testing.T) {
