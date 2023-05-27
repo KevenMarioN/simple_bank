@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	db "github.com/KevenMarioN/simple_bank/db/sqlc"
+	"github.com/KevenMarioN/simple_bank/util"
 	"github.com/gin-gonic/gin"
 )
 
@@ -27,7 +28,7 @@ func (server *Server) createAccount(ctx *gin.Context) {
 	}
 	account, err := server.store.CreateAccount(ctx, arg)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		ctx.JSON(http.StatusInternalServerError, errorResponse(util.HttpError(err)))
 		return
 	}
 
