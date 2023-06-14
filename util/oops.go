@@ -2,7 +2,6 @@ package util
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/lib/pq"
 )
@@ -19,7 +18,6 @@ func HttpError(err error) (result error) {
 }
 
 func errorsPQ(pqErr *pq.Error) error {
-	log.Println(pqErr.Code)
 	switch pqErr.Code {
 	case "23503":
 		return fmt.Errorf("Dado indicado não é uma referência válida")

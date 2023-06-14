@@ -5,15 +5,19 @@ import (
 	"testing"
 	"time"
 
-	"github.com/KevenMarioN/simple_bank/util"
 	"github.com/stretchr/testify/require"
+
+	"github.com/KevenMarioN/simple_bank/util"
 )
 
 func createRandomUser(t *testing.T) User {
+	password, err := util.HashPassword(util.RandomString(20))
+	require.NoError(t, err)
+	require.NotEmpty(t, password)
 	arg := CreateUserParams{
 		Username:       util.RandomOwner(),
-		HashedPassword: util.RandomString(20),
-		Email:          util.RandomString(20),
+		HashedPassword: password,
+		Email:          util.RandomString(10),
 		FullName:       util.RandomEmail(),
 	}
 	user, err := testQueries.CreateUser(context.Background(), arg)
@@ -50,5 +54,4 @@ func TestUser(t *testing.T) {
 
 		require.WithinDuration(t, newUser.CreatedAt, getUser.CreatedAt, time.Second)
 	})
-
 }
